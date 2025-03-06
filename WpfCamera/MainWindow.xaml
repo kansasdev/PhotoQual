@@ -1,0 +1,193 @@
+﻿<Window x:Class="WpfCamera.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfCamera" xmlns:wpfAboutView="clr-namespace:WpfAboutView;assembly=WpfAboutView"
+        mc:Ignorable="d"
+        Title="Face quality tool - using OFIQ library" Background="AliceBlue">
+    
+    <Window.Resources>
+        <wpfAboutView:AboutView x:Key="WpfCameraAboutView"
+		                        x:Shared="False"
+		                        AppIconSource="pack://application:,,,/ExampleApp.ico">
+            <wpfAboutView:AboutView.Credits>
+                <wpfAboutView:Credit Name="Example app woking with OFIQ library. See license"
+				                     Author="kansasdev"
+				                     Website="https://github.com/kansasdev"
+                                     LicenseText="Application uses OFIQ library (https://github.com/BSI-OFIQ/OFIQ-Project) and WpfAboutView (Copyright (c) 2017 Daniel Chalmers). Working with camera directly requires usage of PhotoUWP package created by kansasdev. After taking image from camera it is required to crop it manually and selecting save from save options. App is not sending data anywhere. PhotoUWP saves image taken to pictures library (face.bmp) then WpfCamera loads image and performs quality checks using OFIQ library."
+                                     />
+
+
+            </wpfAboutView:AboutView.Credits>
+        </wpfAboutView:AboutView>
+
+        <Style TargetType="GroupBox">
+            <Setter Property="Margin" Value="16" />
+            <Setter Property="Padding" Value="16" />
+        </Style>
+        <BitmapImage x:Key="faceImageScreen" UriSource="faceimg.png" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+            <Grid ScrollViewer.VerticalScrollBarVisibility="Visible" Height="600">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Image x:Name="imageHost" Margin="30" Grid.Row="0" Grid.Column="0" Source="{StaticResource faceImageScreen}" />
+                <StackPanel Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible" VerticalAlignment="Top">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Unified quality score: " FontSize="16" />
+                        <TextBlock x:Name="tbUnifiedQualityScore" FontSize="16" FontWeight="Bold" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="Background uniformity: " FontSize="16"/>
+                        <TextBlock x:Name="tbBackgroundUniformity" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="Illumination uniformity: " FontSize="16" />
+                        <TextBlock x:Name="tbIlluminationUniformity" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="Luminance mean: " FontSize="16" />
+                        <TextBlock x:Name="tbLuminanceMean" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="Luminance variance: " FontSize="16" />
+                        <TextBlock x:Name="tbLuminanceVariance" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="Under exposure prevention: " FontSize="16" />
+                        <TextBlock x:Name="tbUnderExposurePrevention" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="Over exposure prevention: " FontSize="16" />
+                        <TextBlock x:Name="tbOverExposurePrevention" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="Dynamic range: " FontSize="16" />
+                        <TextBlock x:Name="tbDynamicRange" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="Sharpness: " FontSize="16" />
+                        <TextBlock x:Name="tbSharpness" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="Compression artifacts: " FontSize="16" />
+                        <TextBlock x:Name="tbCompressionArtifacts" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="Natural colour: " FontSize="16" />
+                        <TextBlock x:Name="tbNaturalColour" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="Single face present: " FontSize="16" />
+                        <TextBlock x:Name="tbSingleFacePresent" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="Eyes open: " FontSize="16" />
+                        <TextBlock x:Name="tbEyesOpen" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="Mouth closed: " FontSize="16" />
+                        <TextBlock x:Name="tbMouthClosed" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="Eyes visible: " FontSize="16" />
+                        <TextBlock x:Name="tbEyesVisible" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="Mouth occlusion prevention: " FontSize="16" />
+                        <TextBlock x:Name="tbMouthOcclussionPrevention" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="Face occlusion prevention: " FontSize="16" />
+                        <TextBlock x:Name="tbFaceOcclusionPrevention" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="Inter eye distance: " FontSize="16" />
+                        <TextBlock x:Name="tbInterEyeDistance" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="Head size: " FontSize="16" />
+                        <TextBlock x:Name="tbHeadSize" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="Leftward Crop Of The Face Image: " FontSize="16" />
+                        <TextBlock x:Name="tbLeftwardCropOfTheFaceImage" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="Rightward Crop Of The Face Image: " FontSize="16" />
+                        <TextBlock x:Name="tbRightwardCropOfTheFaceImage" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Margin Above Of The Face Image: " FontSize="16" />
+                        <TextBlock x:Name="tbMarginAboveOfTheFaceImage" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Margin Below Of The Face Image: " FontSize="16" />
+                        <TextBlock x:Name="tbMarginBelowOfTheFaceImage" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Head Pose Yaw: " FontSize="16" />
+                        <TextBlock x:Name="tbHeadPoseYaw" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Head Pose Pitch: " FontSize="16"  />
+                        <TextBlock x:Name="tbHeadPosePitch" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Head Pose Roll: " FontSize="16" />
+                        <TextBlock x:Name="tbHeadPoseRoll" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Expression Neutrality: " FontSize="16" />
+                        <TextBlock x:Name="tbExpressionNeutrality" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="No Head Coverings: " FontSize="16" />
+                        <TextBlock x:Name="tbNoHeadCoverings" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                </StackPanel>
+
+            </Grid>
+        </ScrollViewer>
+        <ProgressBar x:Name="pbWaitProgress" Margin="5" Height="20" VerticalAlignment="Bottom" Grid.Row="1" />
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Grid.Row="2">
+            <Button Content="About" Margin="5" FontSize="16" FontWeight="Bold" Click="Button_About" x:Name="btnAbout"/>
+            <Button Content="Prerequisites" Margin="5" FontSize="16" FontWeight="Bold" Click="Button_Prerequisites" ToolTip="Install required models" x:Name="btnPrerequisites"/>
+            <Button Content="Image from camera" Margin="5" FontSize="16" FontWeight="Bold" Click="Button_Click" x:Name="btnImage"/>
+            <Button Content="Image from file" Margin="5" FontSize="16" FontWeight="Bold" Click="Button_Click_1" x:Name="btnQuality"/>
+            
+
+        </StackPanel>
+    </Grid>
+</Window>
